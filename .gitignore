@@ -6,3 +6,8 @@ node_modules/
 [._]ss[a-gi-z]
 [._]sw[a-p]
 
+
+/.env
+/bun.lockb
+/package-lock.json
+/mysql
