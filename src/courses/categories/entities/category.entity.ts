@@ -5,7 +5,7 @@ export class Category {
   id: string
   name: string
   details: string
-  imageUrl: string
+  imageUrl?: string | null
   status: boolean
   createdAt: Date
   createdBy?: string | null
@@ -15,5 +15,5 @@ export class Category {
   creator?: User | null
   updater?: User | null
 
-  courses: Course[]
+  courses?: Course[]
 }

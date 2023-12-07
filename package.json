@@ -29,6 +29,7 @@
   "devDependencies": {
     "@nestjs/cli": "^10.2.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.10.1",
     "@types/passport-jwt": "^3.0.13",
     "prisma": "^5.7.0",

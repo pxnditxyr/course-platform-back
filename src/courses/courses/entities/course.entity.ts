@@ -11,7 +11,7 @@ export class Course {
   version: string
   startDate: Date
   endDate: Date
-  imageUrl: string
+  imageUrl?: string | null
   status: boolean
   createdAt: Date
   createdBy?: string | null
@@ -21,6 +21,6 @@ export class Course {
   creator?: User | null
   updater?: User | null
 
-  category: Category
-  takenCourses: TakenCourse[]
+  category?: Category | null
+  takenCourses?: TakenCourse[]
 }

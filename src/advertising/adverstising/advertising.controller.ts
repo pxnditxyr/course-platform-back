@@ -1,39 +1,54 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
 import { AdvertisingService } from './advertising.service'
-import { CreateAdvertisingDto } from './dto/create-advertising.dto'
-import { UpdateAdvertisingDto } from './dto/update-advertising.dto'
+import { CreateAdvertisingDto, UpdateAdvertisingDto } from './dto'
+import { Auth, CurrentUser } from 'src/auth/decorators'
+import { User } from 'src/users/users/entities/user.entity'
+import { Advertising } from './entities/advertising.entity'
 
 @Controller( 'advertising' )
 export class AdvertisingController {
 
   constructor (
-    private readonly advertisingService: AdvertisingService
+    private readonly advertisingService : AdvertisingService
   ) {}
 
   @Post()
-  async create(
-    @Body() createAdvertisingDto : CreateAdvertisingDto
-  ) {
-    return this.advertisingService.create( createAdvertisingDto )
+  @Auth()
+  async create (
+    @Body() createAdvertisingDto : CreateAdvertisingDto,
+    @CurrentUser() creator : User
+  ) : Promise<Advertising> {
+    return this.advertisingService.create( createAdvertisingDto, creator )
   }
 
   @Get()
-  findAll() {
+  async findAll () : Promise<Advertising[]> {
     return this.advertisingService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.advertisingService.findOne(+id)
+  @Get( ':id' )
+  async findOne (
+    @Param( 'id', ParseUUIDPipe ) id : string
+  ) : Promise<Advertising> {
+    return this.advertisingService.findOne( id )
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdvertisingDto: UpdateAdvertisingDto) {
-    return this.advertisingService.update(+id, updateAdvertisingDto)
+  @Patch( ':id' )
+  @Auth()
+  async update (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @Body() updateAdvertisingDto : UpdateAdvertisingDto,
+    @CurrentUser() updater : User
+  ) : Promise<Advertising> {
+    return this.advertisingService.update( id, updateAdvertisingDto, updater )
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.advertisingService.remove(+id)
+  @Delete( ':id' )
+  @Auth()
+  async toggleStatus (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @CurrentUser() updater : User
+  ) : Promise<Advertising> {
+    return this.advertisingService.toggleStatus( id, updater )
   }
 }

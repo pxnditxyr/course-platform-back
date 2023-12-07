@@ -1,34 +1,49 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CoursesService } from './courses.service';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
+import { CoursesService } from './courses.service'
+import { CreateCourseDto, UpdateCourseDto } from './dto'
+import { Auth, CurrentUser } from 'src/auth/decorators'
+import { User } from 'src/users/users/entities/user.entity'
+import { Course } from './entities/course.entity'
 
-@Controller('courses')
+@Controller( 'courses' )
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor ( private readonly coursesService: CoursesService ) {}
 
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.coursesService.create(createCourseDto);
+  @Auth()
+  async create (
+    @Body() createCourseDto : CreateCourseDto,
+    @CurrentUser() creator : User
+  ) : Promise<Course> {
+    return this.coursesService.create( createCourseDto, creator )
   }
 
   @Get()
-  findAll() {
-    return this.coursesService.findAll();
+  async findAll () : Promise<Course[]> {
+    return this.coursesService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id);
+  @Get( ':id' )
+  async findOne ( @Param( 'id', ParseUUIDPipe ) id : string ) : Promise<Course> {
+    return this.coursesService.findOne( id )
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.coursesService.update(+id, updateCourseDto);
+  @Patch( ':id' )
+  @Auth()
+  async update (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @Body() updateCourseDto : UpdateCourseDto,
+    @CurrentUser() updater : User
+  ) : Promise<Course> {
+    return this.coursesService.update( id, updateCourseDto, updater )
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id);
+  @Delete( ':id' )
+  @Auth()
+  async toggleStatus (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @CurrentUser() updater : User
+  ) : Promise<Course> {
+    return this.coursesService.toggleStatus( id, updater )
   }
 }

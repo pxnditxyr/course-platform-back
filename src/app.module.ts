@@ -8,6 +8,7 @@ import {
 import { AdvertisingModule } from './advertising'
 import { CategoriesModule, CoursesModule, TakenCoursesModule } from './courses'
 import { AuthModule } from './auth'
+import { FilesModule } from './files'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './auth'
     CategoriesModule,
     TakenCoursesModule,
     AuthModule,
+    FilesModule,
   ]
 })
 export class AppModule {}

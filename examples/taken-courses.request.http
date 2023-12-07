@@ -1,0 +1,24 @@
+GET http://localhost:3005/api/taken-courses
+
+GET http://localhost:3005/api/taken-courses/:id
+
+POST http://localhost:3005/api/taken-courses
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "category 1",
+  "details": "details 1"
+}
+
+PATCH http://localhost:3005/api/taken-courses/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "updated category 1",
+  "details": "updated details 1"
+}
+
+DELETE http://localhost:3005/api/taken-courses/:id
+Authorization: Bearer <token>

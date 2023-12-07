@@ -10,15 +10,15 @@ export class ProgramDetail {
   howToFindOutId: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  creator: User
-  updater: User
-  user: User
+  creator?: User | null
+  updater?: User | null
+  user?: User | null
 
-  paymentMethod: Subparameter
-  registrationCondition: Subparameter
-  howToFindOut: Advertising
+  paymentMethod?: Subparameter | null
+  registrationCondition?: Subparameter | null
+  howToFindOut?: Advertising | null
 }

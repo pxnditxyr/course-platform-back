@@ -239,7 +239,7 @@ model ProgramDetail {
 model Documents {
   id              String   @id @default(uuid())
   userId          String
-  imageUrl        String
+  url             String
   documentTypeInt String
   status          Boolean  @default(true)
   createdAt       DateTime @default(now())
@@ -260,7 +260,7 @@ model Categories {
   id        String   @id @default(uuid())
   name      String
   details   String
-  imageUrl  String
+  imageUrl  String?
   status    Boolean  @default(true)
   createdAt DateTime @default(now())
   createdBy String?
@@ -284,7 +284,7 @@ model Courses {
   version     String
   startDate   DateTime @db.Date()
   endDate     DateTime @db.Date()
-  imageUrl    String
+  imageUrl    String?
   status      Boolean  @default(true)
   createdAt   DateTime @default(now())
   createdBy   String?

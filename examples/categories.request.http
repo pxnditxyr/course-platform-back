@@ -1,0 +1,24 @@
+GET http://localhost:3005/api/categories
+
+GET http://localhost:3005/api/categories/:id
+
+POST http://localhost:3005/api/categories
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "category 1",
+  "details": "details 1"
+}
+
+PATCH http://localhost:3005/api/categories/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "updated category 1",
+  "details": "updated details 1"
+}
+
+DELETE http://localhost:3005/api/categories/:id
+Authorization: Bearer <token>

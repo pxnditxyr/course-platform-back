@@ -1,34 +1,51 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TakenCoursesService } from './taken-courses.service';
-import { CreateTakenCourseDto } from './dto/create-taken-course.dto';
-import { UpdateTakenCourseDto } from './dto/update-taken-course.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
+import { TakenCoursesService } from './taken-courses.service'
+import { CreateTakenCourseDto, UpdateTakenCourseDto } from './dto'
+import { Auth, CurrentUser } from 'src/auth/decorators'
+import { User } from 'src/users/users/entities/user.entity'
+import { TakenCourse } from './entities/taken-course.entity'
 
-@Controller('taken-courses')
+@Controller( 'taken-courses' )
 export class TakenCoursesController {
-  constructor(private readonly takenCoursesService: TakenCoursesService) {}
+  constructor ( private readonly takenCoursesService : TakenCoursesService ) {}
 
   @Post()
-  create(@Body() createTakenCourseDto: CreateTakenCourseDto) {
-    return this.takenCoursesService.create(createTakenCourseDto);
+  @Auth()
+  async create (
+    @Body() createTakenCourseDto : CreateTakenCourseDto,
+    @CurrentUser() creator : User
+  ) : Promise<TakenCourse> {
+    return this.takenCoursesService.create( createTakenCourseDto, creator )
   }
 
   @Get()
-  findAll() {
-    return this.takenCoursesService.findAll();
+  async findAll () : Promise<TakenCourse[]> {
+    return this.takenCoursesService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.takenCoursesService.findOne(+id);
+  @Get( ':id' )
+  async findOne (
+    @Param( 'id', ParseUUIDPipe ) id : string
+  ) : Promise<TakenCourse> {
+    return this.takenCoursesService.findOne( id )
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTakenCourseDto: UpdateTakenCourseDto) {
-    return this.takenCoursesService.update(+id, updateTakenCourseDto);
+  @Patch( ':id' )
+  @Auth()
+  async update (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @Body() updateTakenCourseDto : UpdateTakenCourseDto,
+    @CurrentUser() updater : User
+  ) {
+    return this.takenCoursesService.update( id, updateTakenCourseDto, updater )
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.takenCoursesService.remove(+id);
+  @Delete( ':id' )
+  @Auth()
+  async toggleStatus (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @CurrentUser() updater : User
+  ) : Promise<TakenCourse> {
+    return this.takenCoursesService.toggleStatus( id, updater )
   }
 }

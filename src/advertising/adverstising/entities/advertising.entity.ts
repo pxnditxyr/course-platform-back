@@ -7,12 +7,12 @@ export class Advertising {
   description: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  creator: User
-  updater: User
+  creator?: User | null
+  updater?: User | null
 
   howToFindOut: ProgramDetail[]
 }

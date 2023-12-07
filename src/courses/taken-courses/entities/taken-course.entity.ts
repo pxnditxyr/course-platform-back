@@ -14,6 +14,6 @@ export class TakenCourse {
   creator?: User | null
   updater?: User | null
 
-  user: User
-  course: Course
+  user?: User | null
+  course?: Course | null
 }
