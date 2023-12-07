@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { UsersModule } from './users'
-import { ParametersModule, SubparametersModule } from './parametrics'
+import { ParametersModule, SubparametersModule } from './parametric'
 import {
   BillingsModule,
   ContactInfoModule, DocumentsModule, PersonalInfoModule, ProgramDetailsModule, WorkingInfoModule } from './people-info'

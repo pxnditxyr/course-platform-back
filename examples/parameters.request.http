@@ -1,0 +1,24 @@
+GET http://localhost:3005/api/parameters
+
+GET http://localhost:3005/api/parameters/:id
+
+POST http://localhost:3005/api/parameters
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "gender",
+  "details": "gender details"
+}
+
+PATCH http://localhost:3005/api/parameters/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "updated category 1",
+  "details": "updated details 1"
+}
+
+DELETE http://localhost:3005/api/parameters/:id
+Authorization: Bearer <token>

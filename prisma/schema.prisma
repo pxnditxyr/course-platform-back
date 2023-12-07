@@ -9,8 +9,8 @@ datasource db {
 
 model Parameters {
   id        String   @id @default(uuid())
-  name      String
-  details   String?
+  name      String   @unique
+  details   String
   status    Boolean  @default(true)
   createdAt DateTime @default(now())
   createdBy String?
@@ -28,7 +28,7 @@ model Parameters {
 model Subparameters {
   id          String   @id @default(uuid())
   name        String
-  details     String?
+  details     String
   parameterId String
   status      Boolean  @default(true)
   createdAt   DateTime @default(now())

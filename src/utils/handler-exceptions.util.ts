@@ -2,10 +2,10 @@ export const extractPrismaExceptions = ( error : any ) : string | undefined => {
   if ( error.code === 'P2002' ) {
     if ( typeof error.meta.target === 'string' ) {
       const target = splitTarget( error.meta.target )
-      return `The ${ target } is already in use`
+      return `El campo ${ target } ya está en uso`
     }
     return error.meta.target.map( ( field : string ) =>
-      `The ${ field } is already in use` ).join( ', ' )
+      `El campo ${ field } ya esta en uso` ).join( ', ' )
   }
   
   if ( !error.code ) {

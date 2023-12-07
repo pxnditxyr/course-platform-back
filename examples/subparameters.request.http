@@ -1,0 +1,25 @@
+GET http://localhost:3005/api/subparameters
+
+GET http://localhost:3005/api/subparameters/:id
+
+POST http://localhost:3005/api/subparameters
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "Masculino",
+  "details": "Genero masculino",
+  "parameterId": "7dc85db6-d908-4730-9412-88cc13d7b429"
+}
+
+PATCH http://localhost:3005/api/subparameters/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "updated category 1",
+  "details": "updated details 1"
+}
+
+DELETE http://localhost:3005/api/subparameters/:id
+Authorization: Bearer <token>

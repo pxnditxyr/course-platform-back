@@ -1,20 +1,18 @@
 import { Subparameter } from 'src/parametric/subparameters/entities/subparameter.entity'
 import { User } from 'src/users/users/entities/user.entity'
 
-export class Document {
+export class Parameter {
   id: string
-  userId: string
-  imageUrl: string
-  documentTypeInt: string
+  name: string
+  details: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  creator: User
-  updater: User
+  creator?: User | null
+  updater?: User | null
 
-  user: User
-  documentType: Subparameter
+  subparameters?: Subparameter[]
 }

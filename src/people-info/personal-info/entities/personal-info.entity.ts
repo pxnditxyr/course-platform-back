@@ -1,4 +1,4 @@
-import { Subparameter } from "src/parametrics/subparameters/entities/subparameter.entity"
+import { Subparameter } from "src/parametric/subparameters/entities/subparameter.entity"
 import { User } from "src/users/users/entities/user.entity"
 
 export class PersonalInfo {
