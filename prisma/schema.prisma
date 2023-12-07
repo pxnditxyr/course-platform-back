@@ -58,6 +58,7 @@ enum Role {
 model Users {
   id              String   @id @default(uuid())
   email           String   @unique
+  password        String
   name            String
   paternalSurname String
   maternalSurname String
@@ -91,6 +92,12 @@ model Users {
   updatedProgramDetail ProgramDetail[] @relation("program_details_updated_by")
   createdDocuments     Documents[]     @relation("documents_created_by")
   updatedDocuments     Documents[]     @relation("documents_updated_by")
+  createdCategories    Categories[]    @relation("categories_created_by")
+  updatedCategories    Categories[]    @relation("categories_updated_by")
+  createdCourses       Courses[]       @relation("courses_created_by")
+  updatedCourses       Courses[]       @relation("courses_updated_by")
+  createdTakenCourses  TakenCourses[]  @relation("taken_courses_created_by")
+  updatedTakenCourses  TakenCourses[]  @relation("taken_courses_updated_by")
 
   personalInfo        PersonalInfo[]  @relation("personalinfo_user")
   personalContactInfo ContactInfo[]   @relation("contact_info_user")
@@ -98,6 +105,7 @@ model Users {
   personalBilling     Billing[]       @relation("billing_user")
   programDetail       ProgramDetail[] @relation("program_details_user")
   documents           Documents[]     @relation("documents_user")
+  takenCourses        TakenCourses[]  @relation("taken_courses_user")
 
   @@map("users")
 }
@@ -246,4 +254,67 @@ model Documents {
   documentType Subparameters @relation("documents_document_type", fields: [documentTypeInt], references: [id])
 
   @@map("documents")
+}
+
+model Categories {
+  id        String   @id @default(uuid())
+  name      String
+  details   String
+  imageUrl  String
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  creator Users? @relation("categories_created_by", fields: [createdBy], references: [id])
+  updater Users? @relation("categories_updated_by", fields: [updatedBy], references: [id])
+
+  courses Courses[] @relation( "courses_category" )
+
+  @@map("categories")
+}
+
+model Courses {
+  id          String   @id @default(uuid())
+  name        String
+  details     String
+  categoryId  String
+  city        String
+  version     String
+  startDate   DateTime @db.Date()
+  endDate     DateTime @db.Date()
+  imageUrl    String
+  status      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  createdBy   String?
+  updatedAt   DateTime @updatedAt
+  updatedBy   String?
+
+  creator Users? @relation("courses_created_by", fields: [createdBy], references: [id])
+  updater Users? @relation("courses_updated_by", fields: [updatedBy], references: [id])
+
+  category Categories @relation("courses_category", fields: [categoryId], references: [id])
+  takenCourses TakenCourses[] @relation("taken_courses_course")
+
+  @@map("courses")
+}
+
+model TakenCourses {
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  createdBy String?
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  creator Users? @relation("taken_courses_created_by", fields: [createdBy], references: [id])
+  updater Users? @relation("taken_courses_updated_by", fields: [updatedBy], references: [id])
+
+  user   Users  @relation("taken_courses_user", fields: [userId], references: [id])
+  course Courses @relation("taken_courses_course", fields: [courseId], references: [id])
+
+  @@map("taken_courses")
 }

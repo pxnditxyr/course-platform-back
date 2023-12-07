@@ -1,1 +1,4 @@
-export class CreateAdvertisingDto {}
+export class CreateAdvertisingDto {
+  name: string
+  description: string
+}

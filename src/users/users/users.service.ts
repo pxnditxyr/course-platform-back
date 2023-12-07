@@ -1,26 +1,100 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common'
+import { CreateUserDto, UpdateUserDto } from './dto'
+import { PrismaService } from 'src/prisma'
+import { User } from './entities/user.entity'
+import { extractPrismaExceptions } from 'src/utils'
+import { hashSync } from 'bcrypt'
+
+const usersIncludes = {
+  creator: true,
+  updater: true,
+}
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  constructor (
+    private readonly prismaService : PrismaService
+  ) {}
+
+  async create (
+    createUserDto : CreateUserDto
+  ) : Promise<User> {
+    try {
+      const user = await this.prismaService.users.create({
+        data: {
+          ...createUserDto,
+          password: hashSync( createUserDto.password, 10 ),
+        },
+        include: { ...usersIncludes }
+      })
+      return user
+    } catch ( error ) {
+      this.handlerDBExceptions( error )
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll () : Promise<User[]> {
+    const users = await this.prismaService.users.findMany({
+      include: { ...usersIncludes }
+    })
+    return users
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne ( id : string ) : Promise<User> {
+    const user = await this.prismaService.users.findUnique({
+      where: { id },
+      include: { ...usersIncludes }
+    })
+    if ( !user ) throw new BadRequestException( 'El usuario no existe' )
+    return user
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOneByEmail ( email : string ) : Promise<User> {
+    const user = await this.prismaService.users.findUnique({
+      where: { email },
+      include: { ...usersIncludes }
+    })
+    if ( !user ) throw new BadRequestException( `El usuario con email ${ email } no existe` )
+    return user
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update ( id : string, updateUserDto : UpdateUserDto ) {
+    await this.findOne( id )
+    try {
+      const newPassword = updateUserDto.password ? hashSync( updateUserDto.password, 10 ) : undefined
+      const user = await this.prismaService.users.update({
+        where: { id },
+        data: {
+          ...updateUserDto,
+          password: newPassword,
+        },
+        include: { ...usersIncludes }
+      })
+      return user
+    } catch ( error ) {
+      this.handlerDBExceptions( error )
+    }
+  }
+
+  async toggleStatus ( id : string ) : Promise<User> {
+    const currentUser = await this.findOne( id )
+    try {
+      const user = await this.prismaService.users.update({
+        where: { id },
+        data: { status: !currentUser.status, },
+        include: { ...usersIncludes }
+      })
+      return user
+    } catch ( error ) {
+      this.handlerDBExceptions( error )
+    }
+  }
+
+  private handlerDBExceptions ( error : any ) : never {
+    console.error( error )
+    const prismaError = extractPrismaExceptions( error )
+    if ( prismaError ) throw new BadRequestException( prismaError )
+    throw new InternalServerErrorException( 'Error no esperado, por favor contacte al administrador' )
   }
 }

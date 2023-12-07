@@ -5,12 +5,13 @@ export class User {
   paternalSurname: string
   maternalSurname: string
   role: string
+  password: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  creator: User
-  updater: User
+  creator?: User | null
+  updater?: User | null
 }

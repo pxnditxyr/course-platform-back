@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users';
-import { ParametersModule, SubparametersModule } from './parametrics';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { UsersModule } from './users'
+import { ParametersModule, SubparametersModule } from './parametrics'
 import {
   BillingsModule,
-  ContactInfoModule, DocumentsModule, PersonalInfoModule, ProgramDetailsModule, WorkingInfoModule } from './people-info';
-import { AdvertisingModule } from './advertising';
+  ContactInfoModule, DocumentsModule, PersonalInfoModule, ProgramDetailsModule, WorkingInfoModule } from './people-info'
+import { AdvertisingModule } from './advertising'
+import { CategoriesModule, CoursesModule, TakenCoursesModule } from './courses'
+import { AuthModule } from './auth'
 
 @Module({
   imports: [
@@ -15,6 +17,10 @@ import { AdvertisingModule } from './advertising';
     PersonalInfoModule, ContactInfoModule, WorkingInfoModule, 
     AdvertisingModule, ProgramDetailsModule, DocumentsModule,
     BillingsModule,
+    CoursesModule,
+    CategoriesModule,
+    TakenCoursesModule,
+    AuthModule,
   ]
 })
 export class AppModule {}

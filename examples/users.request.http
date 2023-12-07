@@ -1,0 +1,23 @@
+GET http://localhost:3005/api/users
+
+GET http://localhost:3005/api/users/:id
+
+POST http://localhost:3005/api/users
+Content-Type: application/json
+
+{
+  "email": "pxndxs@pxndxs.com",
+  "name": "pxndxs",
+  "paternalSurname": "pxndxs",
+  "maternalSurname": "pxndxs",
+  "role": "ADMIN"
+}
+
+PATCH http://localhost:3005/api/users/:id
+Content-Type: application/json
+
+{
+  "email": "pxndxsxd@pxndxs.com"
+}
+
+DELETE http://localhost:3005/api/users/:id

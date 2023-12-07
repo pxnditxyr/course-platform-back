@@ -1,34 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AdvertisingService } from './advertising.service';
-import { CreateAdvertisingDto } from './dto/create-advertising.dto';
-import { UpdateAdvertisingDto } from './dto/update-advertising.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { AdvertisingService } from './advertising.service'
+import { CreateAdvertisingDto } from './dto/create-advertising.dto'
+import { UpdateAdvertisingDto } from './dto/update-advertising.dto'
 
-@Controller('advertising')
+@Controller( 'advertising' )
 export class AdvertisingController {
-  constructor(private readonly advertisingService: AdvertisingService) {}
+
+  constructor (
+    private readonly advertisingService: AdvertisingService
+  ) {}
 
   @Post()
-  create(@Body() createAdvertisingDto: CreateAdvertisingDto) {
-    return this.advertisingService.create(createAdvertisingDto);
+  async create(
+    @Body() createAdvertisingDto : CreateAdvertisingDto
+  ) {
+    return this.advertisingService.create( createAdvertisingDto )
   }
 
   @Get()
   findAll() {
-    return this.advertisingService.findAll();
+    return this.advertisingService.findAll()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.advertisingService.findOne(+id);
+    return this.advertisingService.findOne(+id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAdvertisingDto: UpdateAdvertisingDto) {
-    return this.advertisingService.update(+id, updateAdvertisingDto);
+    return this.advertisingService.update(+id, updateAdvertisingDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.advertisingService.remove(+id);
+    return this.advertisingService.remove(+id)
   }
 }
