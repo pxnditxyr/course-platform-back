@@ -1,7 +1,7 @@
 {
-  "name": "formulario",
-  "version": "1.0.0",
-  "description": "",
+  "name": "course-platform",
+  "version": "0.0.1",
+  "description": "Courses Platform Backend | NestJS",
   "main": "dist/src/main",
   "scripts": {
     "build": "nest build",
