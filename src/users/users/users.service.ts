@@ -18,13 +18,15 @@ export class UsersService {
   ) {}
 
   async create (
-    createUserDto : CreateUserDto
+    createUserDto : CreateUserDto,
+    creator? : User
   ) : Promise<User> {
     try {
       const user = await this.prismaService.users.create({
         data: {
           ...createUserDto,
           password: hashSync( createUserDto.password, 10 ),
+          createdBy: creator?.id
         },
         include: { ...usersIncludes }
       })
@@ -59,7 +61,7 @@ export class UsersService {
     return user
   }
 
-  async update ( id : string, updateUserDto : UpdateUserDto ) {
+  async update ( id : string, updateUserDto : UpdateUserDto, updater : User ) : Promise<User> {
     await this.findOne( id )
     try {
       const newPassword = updateUserDto.password ? hashSync( updateUserDto.password, 10 ) : undefined
@@ -68,6 +70,7 @@ export class UsersService {
         data: {
           ...updateUserDto,
           password: newPassword,
+          updatedBy: updater.id
         },
         include: { ...usersIncludes }
       })
@@ -77,12 +80,15 @@ export class UsersService {
     }
   }
 
-  async toggleStatus ( id : string ) : Promise<User> {
+  async toggleStatus ( id : string, updater : User ) : Promise<User> {
     const currentUser = await this.findOne( id )
     try {
       const user = await this.prismaService.users.update({
         where: { id },
-        data: { status: !currentUser.status, },
+        data: {
+          status: !currentUser.status,
+          updatedBy: updater.id
+        },
         include: { ...usersIncludes }
       })
       return user

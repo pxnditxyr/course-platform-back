@@ -4,20 +4,24 @@ GET http://localhost:3005/api/users/:id
 
 POST http://localhost:3005/api/users
 Content-Type: application/json
+Authorization: Bearer <token>
 
 {
   "email": "pxndxs@pxndxs.com",
   "name": "pxndxs",
   "paternalSurname": "pxndxs",
   "maternalSurname": "pxndxs",
-  "role": "ADMIN"
+  "role": "ADMIN",
+  "password": "pxndxs"
 }
 
 PATCH http://localhost:3005/api/users/:id
 Content-Type: application/json
+Authorization: Bearer <token>
 
 {
   "email": "pxndxsxd@pxndxs.com"
 }
 
 DELETE http://localhost:3005/api/users/:id
+Authorization: Bearer <token>

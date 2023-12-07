@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from
 import { UsersService } from './users.service'
 import { CreateUserDto, UpdateUserDto } from './dto'
 import { User } from './entities/user.entity'
+import { Auth, CurrentUser } from 'src/auth/decorators'
+import { ValidRoles } from 'src/auth'
 
 @Controller( 'users' )
 export class UsersController {
@@ -9,10 +11,12 @@ export class UsersController {
   constructor( private readonly usersService: UsersService ) {}
 
   @Post()
+  @Auth( ValidRoles.ADMIN )
   async create (
-    @Body() createUserDto : CreateUserDto
+    @Body() createUserDto : CreateUserDto,
+    @CurrentUser() creator : User
   ) : Promise<User> {
-    return this.usersService.create( createUserDto )
+    return this.usersService.create( createUserDto, creator )
   }
 
   @Get()
@@ -28,17 +32,21 @@ export class UsersController {
   }
 
   @Patch( ':id' )
+  @Auth()
   async update (
     @Param( 'id', ParseUUIDPipe ) id : string,
-    @Body() updateUserDto : UpdateUserDto
+    @Body() updateUserDto : UpdateUserDto,
+    @CurrentUser() updater : User
   ) : Promise<User> {
-    return this.usersService.update( id, updateUserDto )
+    return this.usersService.update( id, updateUserDto, updater )
   }
 
+  @Auth()
   @Delete( ':id' )
   async toggleStatus (
-    @Param( 'id' ) id : string
+    @Param( 'id' ) id : string,
+    @CurrentUser() updater : User
   ) : Promise<User> {
-    return this.usersService.toggleStatus( id )
+    return this.usersService.toggleStatus( id, updater )
   }
 }

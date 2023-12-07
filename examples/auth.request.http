@@ -2,7 +2,7 @@ POST http://localhost:3005/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "pxndxs.xd@pxndxs.com",
+  "email": "pxndxs.xd1@pxndxs.com",
   "password": "pxndxs"
 }
 
