@@ -7,11 +7,11 @@ export class Billing {
   reason: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  user: User
-  creator: User
-  updater: User
+  user?: User | null
+  creator?: User | null
+  updater?: User | null
 }

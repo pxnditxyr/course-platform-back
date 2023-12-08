@@ -1,34 +1,57 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PersonalInfoService } from './personal-info.service';
-import { CreatePersonalInfoDto } from './dto/create-personal-info.dto';
-import { UpdatePersonalInfoDto } from './dto/update-personal-info.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
+import { PersonalInfoService } from './personal-info.service'
+import { Auth, CurrentUser } from 'src/auth/decorators'
+import { User } from 'src/users/users/entities/user.entity'
+import { PersonalInfo } from './entities/personal-info.entity'
+import { CreatePersonalInfoDto, UpdatePersonalInfoDto } from './dto'
 
-@Controller('personal-info')
+@Controller( 'personal-info' )
 export class PersonalInfoController {
-  constructor(private readonly personalInfoService: PersonalInfoService) {}
+  constructor( private readonly personalInfoService: PersonalInfoService ) {}
 
   @Post()
-  create(@Body() createPersonalInfoDto: CreatePersonalInfoDto) {
-    return this.personalInfoService.create(createPersonalInfoDto);
+  @Auth()
+  async create (
+    @Body() createPersonalInfoDto : CreatePersonalInfoDto,
+    @CurrentUser() creator : User
+  ) : Promise<PersonalInfo> {
+    return this.personalInfoService.create( createPersonalInfoDto, creator )
   }
 
   @Get()
-  findAll() {
-    return this.personalInfoService.findAll();
+  async findAll () : Promise<PersonalInfo[]> {
+    return this.personalInfoService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.personalInfoService.findOne(+id);
+  @Get( ':id' )
+  async findOne (
+    @Param( 'id', ParseUUIDPipe ) id : string
+  ) {
+    return this.personalInfoService.findOne( id )
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePersonalInfoDto: UpdatePersonalInfoDto) {
-    return this.personalInfoService.update(+id, updatePersonalInfoDto);
+  @Get( 'user/:userId' )
+  async findByUser(
+    @Param( 'userId', ParseUUIDPipe ) userId: string
+  ) : Promise<PersonalInfo> {
+    return this.personalInfoService.findOneByUser( userId )
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.personalInfoService.remove(+id);
+  @Patch( ':id' )
+  async update (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @Body() updatePersonalInfoDto : UpdatePersonalInfoDto,
+    @CurrentUser() updater : User
+  ) : Promise<PersonalInfo> {
+    return this.personalInfoService.update( id, updatePersonalInfoDto, updater )
+  }
+
+  @Delete( ':id' )
+  @Auth()
+  async toggleStatus (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @CurrentUser() updater : User
+  ) : Promise<PersonalInfo> {
+    return this.personalInfoService.toggleStatus( id, updater )
   }
 }

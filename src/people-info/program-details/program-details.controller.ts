@@ -1,34 +1,55 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProgramDetailsService } from './program-details.service';
-import { CreateProgramDetailDto } from './dto/create-program-detail.dto';
-import { UpdateProgramDetailDto } from './dto/update-program-detail.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
+import { ProgramDetailsService } from './program-details.service'
+import { CreateProgramDetailDto, UpdateProgramDetailDto } from './dto'
+import { ProgramDetail } from './entities/program-detail.entity'
+import { Auth, CurrentUser } from 'src/auth/decorators'
+import { User } from 'src/users/users/entities/user.entity'
 
-@Controller('program-details')
+@Controller( 'program-details' )
 export class ProgramDetailsController {
-  constructor(private readonly programDetailsService: ProgramDetailsService) {}
+
+  constructor ( private readonly programDetailsService: ProgramDetailsService ) {}
 
   @Post()
-  create(@Body() createProgramDetailDto: CreateProgramDetailDto) {
-    return this.programDetailsService.create(createProgramDetailDto);
+  @Auth()
+  async create (
+    @Body() createProgramDetailDto : CreateProgramDetailDto,
+    @CurrentUser() creator : User
+  ) : Promise<ProgramDetail> {
+    return this.programDetailsService.create( createProgramDetailDto, creator )
   }
 
   @Get()
-  findAll() {
-    return this.programDetailsService.findAll();
+  async findAll () : Promise<ProgramDetail[]> {
+    return this.programDetailsService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.programDetailsService.findOne(+id);
+  @Get( ':id' )
+  async findOne ( @Param( 'id', ParseUUIDPipe ) id : string ) : Promise<ProgramDetail> {
+    return this.programDetailsService.findOne( id )
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProgramDetailDto: UpdateProgramDetailDto) {
-    return this.programDetailsService.update(+id, updateProgramDetailDto);
+  @Get( 'user/:userId' )
+  async findByUser ( @Param( 'userId', ParseUUIDPipe ) id : string ) : Promise<ProgramDetail> {
+    return this.programDetailsService.findByUser( id )
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.programDetailsService.remove(+id);
+  @Patch( ':id' )
+  @Auth()
+  async update (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @Body() updateProgramDetailDto: UpdateProgramDetailDto,
+    @CurrentUser() updater : User
+  ) : Promise<ProgramDetail> {
+    return this.programDetailsService.update( id, updateProgramDetailDto, updater )
+  }
+
+  @Delete( ':id' )
+  @Auth()
+  async toggleStatus (
+    @Param( 'id', ParseUUIDPipe ) id : string,
+    @CurrentUser() updater : User
+  ) {
+    return this.programDetailsService.toggleStatus( id, updater )
   }
 }

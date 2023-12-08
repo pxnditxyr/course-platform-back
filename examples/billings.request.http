@@ -1,0 +1,27 @@
+GET http://localhost:3005/api/billings
+
+GET http://localhost:3005/api/billings/:id
+
+GET http://localhost:3005/api/billings/user/:userId
+
+POST http://localhost:3005/api/billings
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "userId": "5957b877-5957-4252-8332-d9df8f961f82",
+  "nit": "123456789",
+  "reason": "reason 1"
+}
+
+PATCH http://localhost:3005/api/billings/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "nit": "123456789",
+  "reason": "reason 1"
+}
+
+DELETE http://localhost:3005/api/billings/:id
+Authorization: Bearer <token>

@@ -14,6 +14,7 @@ import { JwtStrategy } from './strategies'
   imports: [
     ConfigModule,
     forwardRef( () => UsersModule ),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],
       inject: [ ConfigService ],
@@ -22,8 +23,7 @@ import { JwtStrategy } from './strategies'
         signOptions: { expiresIn: configService.get<string>( 'JWT_EXPIRES_IN' ) }
       })
     }),
-    PassportModule.register({ defaultStrategy: 'jwt' })
   ],
-  exports: [ PassportModule, JwtStrategy, JwtModule ]
+  exports: [ JwtStrategy, PassportModule, JwtModule ]
 })
 export class AuthModule {}

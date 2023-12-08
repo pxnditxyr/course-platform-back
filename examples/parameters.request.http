@@ -7,8 +7,8 @@ Content-Type: application/json
 Authorization: Bearer <token>
 
 {
-  "name": "gender",
-  "details": "gender details"
+  "name": "document type",
+  "details": "document type details"
 }
 
 PATCH http://localhost:3005/api/parameters/:id

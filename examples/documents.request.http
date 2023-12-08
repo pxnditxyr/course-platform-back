@@ -1,0 +1,28 @@
+GET http://localhost:3005/api/documents
+
+GET http://localhost:3005/api/documents/:id
+
+GET http://localhost:3005/api/documents/user/:userId
+
+POST http://localhost:3005/api/documents
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "userId": "5957b877-5957-4252-8332-d9df8f961f82",
+  "url": "http://www.google.com",
+  "documentTypeId": "c09664ac-053f-4765-bc28-b863e56cf1c7"
+}
+
+PATCH http://localhost:3005/api/documents/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "userId": "5957b877-5957-4252-8332-d9df8f961f82",
+  "url": "http://www.google.com",
+  "documentTypeId": "c09664ac-053f-4765-bc28-b863e56cf1c7"
+}
+
+DELETE http://localhost:3005/api/documents/:id
+Authorization: Bearer <token>

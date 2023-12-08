@@ -4,20 +4,20 @@ import { User } from "src/users/users/entities/user.entity"
 export class PersonalInfo {
   id: string
   userId: string
-  ciExtentionId: string
+  ciExtensionId: string
   genderId: string
   birthDate: Date
   nationality: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  creator: User
-  updater: User
-  user: User
+  creator?: User | null
+  updater?: User | null
+  user?: User | null
 
-  ciExtention: Subparameter
-  gender: Subparameter
+  ciExtension?: Subparameter | null
+  gender?: Subparameter | null
 }

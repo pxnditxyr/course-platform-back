@@ -1,0 +1,33 @@
+GET http://localhost:3005/api/contact-info
+
+GET http://localhost:3005/api/contact-info/:id
+
+GET http://localhost:3005/api/contact-info/user/:userId
+
+POST http://localhost:3005/api/contact-info
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "userId": "5957b877-5957-4252-8332-d9df8f961f82",
+  "phone": "1234567890",
+  "landline": "1234567890",
+  "department": "La Paz",
+  "address": "La Paz",
+  "city": "La Paz"
+}
+
+PATCH http://localhost:3005/api/contact-info/:id
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "phone": "1234567890",
+  "landline": "1234567890",
+  "department": "La Paz",
+  "address": "La Paz",
+  "city": "La Paz"
+}
+
+DELETE http://localhost:3005/api/contact-info/:id
+Authorization: Bearer <token>

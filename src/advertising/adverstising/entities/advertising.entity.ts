@@ -14,5 +14,5 @@ export class Advertising {
   creator?: User | null
   updater?: User | null
 
-  howToFindOut: ProgramDetail[]
+  howToFindOut?: ProgramDetail[]
 }

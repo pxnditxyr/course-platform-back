@@ -57,6 +57,7 @@ export class AuthService {
 
   private getUserResponse ( user : User ) : UserResponse {
     return {
+      id: user.id,
       role: user.role,
       email: user.email,
       name: user.name,

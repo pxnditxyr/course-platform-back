@@ -4,6 +4,7 @@ import { TakenCoursesController } from './taken-courses.controller'
 import { PrismaService } from 'src/prisma'
 import { CategoriesModule } from '../categories/categories.module'
 import { UsersModule } from 'src/users'
+import { AuthModule } from 'src/auth'
 
 @Module({
   controllers: [ TakenCoursesController ],
@@ -12,6 +13,7 @@ import { UsersModule } from 'src/users'
     PrismaService
   ],
   imports: [
+    AuthModule,
     CategoriesModule,
     UsersModule
   ],

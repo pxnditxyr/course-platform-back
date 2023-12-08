@@ -4,17 +4,17 @@ import { User } from 'src/users/users/entities/user.entity'
 export class Document {
   id: string
   userId: string
-  imageUrl: string
-  documentTypeInt: string
+  url: string
+  documentTypeId: string
   status: boolean
   createdAt: Date
-  createdBy: string
+  createdBy?: string | null
   updatedAt: Date
-  updatedBy: string
+  updatedBy?: string | null
 
-  creator: User
-  updater: User
+  creator?: User | null
+  updater?: User | null
 
-  user: User
-  documentType: Subparameter
+  user?: User | null
+  documentType?: Subparameter | null
 }
