@@ -32,6 +32,13 @@ export class ParametersController {
     return this.parametersService.findOne( id )
   }
 
+  @Get( 'name/:name' )
+  async findOneByName (
+    @Param( 'name' ) name : string
+  ) : Promise<Parameter> {
+    return this.parametersService.findOneByName( name )
+  }
+
   @Patch( ':id' )
   @Auth()
   async update (

@@ -49,6 +49,15 @@ export class ParametersService {
     return parameter
   }
 
+  async findOneByName ( name : string ) : Promise<Parameter> {
+    const parameter = await this.prismaService.parameters.findUnique({
+      where: { name },
+      include: { ...parametersIncludes }
+    })
+    if ( !parameter ) throw new NotFoundException( 'El parámetro no existe' )
+    return parameter
+  }
+
   async update ( id : string, updateParameterDto : UpdateParameterDto, updater : User ) : Promise<Parameter> {
     await this.findOne( id )
     try {
