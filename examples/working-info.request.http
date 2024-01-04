@@ -6,14 +6,15 @@ GET http://localhost:3005/api/working-info/user/:userId
 
 POST http://localhost:3005/api/working-info
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NTdiODc3LTU5NTctNDI1Mi04MzMyLWQ5ZGY4Zjk2MWY4MiIsImlhdCI6MTcwMTk5MzY3MywiZXhwIjoxNzAyMDgwMDczfQ.CuuH0dTKVV_D6jA2SwnTkWspOrNXPf9GYyGgmWrr-HA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ZDg2YzE0LTkzNjctNGRhNC05OTk1LWVkOWUzYTQxN2ZjZiIsImlhdCI6MTcwNDExNzQ2MywiZXhwIjoxNzA0MjAzODYzfQ.3rHfOhU9ncKDnpjV_U2QfwFVtbPFQV0awI2MIE6AXWc
 
 {
   "userId": "5957b877-5957-4252-8332-d9df8f961f82",
-  "nationality": "Bolivia",
-  "genderId": "664ef3f8-188d-4843-9a3f-c8282f2d1bb1",
-  "ciExtensionId": "664ef3f8-188d-4843-9a3f-c8282f2d1bb1",
-  "birthDate": "2017-09-01"
+  "profession": "Profession",
+  "institutionTitle": "Institution Title",
+  "jobAddress": "Job Address",
+  "position": "Position",
+  "professionLevelId": "5957b877-5957-4252-8332-d9df8f961f82"
 }
 
 PATCH http://localhost:3005/api/working-info/:id

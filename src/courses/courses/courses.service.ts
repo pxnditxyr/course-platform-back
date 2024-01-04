@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { CreateCourseDto, UpdateCourseDto } from './dto'
 import { User } from 'src/users/users/entities/user.entity'
 import { Course } from './entities/course.entity'
@@ -36,6 +36,7 @@ export class CoursesService {
   async findAll () : Promise<Course[]> {
     const courses = await this.prismaService.courses.findMany({
       include: { ...coursesIncludes },
+      orderBy: { createdAt: 'desc' },
     })
     return courses
   }
@@ -84,6 +85,8 @@ export class CoursesService {
   }
 
   private handlerDBExceptions ( error : any ) : never {
+    //TODO: Improve this
+    if ( error.code === 'P2000' ) throw new BadRequestException( 'Parece que algun campo es demasiado largo' )
     console.error( error )
     throw new InternalServerErrorException( 'Error no esperado, por favor contacte al administrador' )
   }

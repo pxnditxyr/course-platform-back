@@ -35,7 +35,8 @@ export class ParametersService {
 
   async findAll () : Promise<Parameter[]> {
     const parameters = await this.prismaService.parameters.findMany({
-      include: { ...parametersIncludes }
+      include: { ...parametersIncludes },
+      orderBy: { createdAt: 'desc' }
     })
     return parameters
   }

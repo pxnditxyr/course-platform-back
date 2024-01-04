@@ -7,8 +7,14 @@ Content-Type: application/json
 Authorization: Bearer <token>
 
 {
-  "name": "category 1",
-  "details": "details 1"
+  "name": "curso 1",
+  "details": "details 1",
+  "categoryId": "eac1d926-5bee-4fea-b0bb-1322f26f00a5",
+  "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlLuQJtSzdSBhn8PFQKIi8SQT-HMuAH7iRHL_wkv3rKA&s",
+  "city": "city 1",
+  "version": "1.0",
+  "startDate": "2021-06-15T00:13:00.000Z",
+  "endDate": "2021-06-15T00:00:00.000Z"
 }
 
 PATCH http://localhost:3005/api/courses/:id

@@ -17,6 +17,7 @@ export class AuthService {
   async signin ( signinDto : SigninDto ) : Promise<AuthResponse> {
     try {
       const user = await this.usersService.findOneByEmail( signinDto.email )
+      if ( !user.status ) throw new UnauthorizedException( 'Usuario o contraseña incorrectos' )
       const { password } = signinDto
       if ( !compareSync( password, user.password ) ) throw new UnauthorizedException( 'Usuario o contraseña incorrectos' )
       const token = this.generateToken( user.id )

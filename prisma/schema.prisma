@@ -282,8 +282,8 @@ model Courses {
   categoryId  String
   city        String
   version     String
-  startDate   DateTime @db.Date()
-  endDate     DateTime @db.Date()
+  startDate   DateTime
+  endDate     DateTime
   imageUrl    String?
   status      Boolean  @default(true)
   createdAt   DateTime @default(now())

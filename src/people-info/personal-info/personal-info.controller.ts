@@ -38,6 +38,7 @@ export class PersonalInfoController {
   }
 
   @Patch( ':id' )
+  @Auth()
   async update (
     @Param( 'id', ParseUUIDPipe ) id : string,
     @Body() updatePersonalInfoDto : UpdatePersonalInfoDto,

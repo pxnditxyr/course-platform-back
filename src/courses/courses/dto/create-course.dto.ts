@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class CreateCourseDto {
   @IsNotEmpty()
@@ -12,6 +12,11 @@ export class CreateCourseDto {
   @IsUUID()
   categoryId: string
 
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  imageUrl: string
+
   @IsNotEmpty()
   @IsString()
   city: string
@@ -20,11 +25,9 @@ export class CreateCourseDto {
   @IsString()
   version: string
 
-  @IsNotEmpty()
   @IsDateString()
   startDate: string
   
-  @IsNotEmpty()
   @IsDateString()
   endDate: string
 }

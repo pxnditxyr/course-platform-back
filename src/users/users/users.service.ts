@@ -38,7 +38,8 @@ export class UsersService {
 
   async findAll () : Promise<User[]> {
     const users = await this.prismaService.users.findMany({
-      include: { ...usersIncludes }
+      include: { ...usersIncludes },
+      orderBy: { createdAt: 'desc' }
     })
     return users
   }

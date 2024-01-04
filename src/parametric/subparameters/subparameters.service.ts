@@ -39,7 +39,8 @@ export class SubparametersService {
 
   async findAll () : Promise<Subparameter[]> {
     const subparameters = await this.prismaService.subparameters.findMany({
-      include: { ...subparametersIncludes }
+      include: { ...subparametersIncludes },
+      orderBy: { createdAt: 'desc' }
     })
     return subparameters
   }
